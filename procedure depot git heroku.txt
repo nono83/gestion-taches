@@ -1,0 +1,21 @@
+- Création sur github du dépot distant gestion-taches
+- Postionnement dans le dossier du projet avec gitbash cd "C:\wamp64\www\gestion-taches"
+- git init
+- git add index.php
+- git commit -am "ajout du fichier index.php" (cela créé la branche master)
+- git remote add https://github.com/nono83/gestion-taches.git
+- git push --set-upstream origin master 
+
+- git checkout -b liste
+- git add list.php
+- git commit -am "ft : ajout du fichier list.php" 
+- git add list-post.php
+- git commit -am "ft : ajout du fichier list-post.php"
+- git push --set-upstream origin liste ou git push -u origin liste
+
+- git checkout -b taches
+- git add tache.php
+- git commit -am "ft : ajout du fichier tache.php" 
+- git add tache-post.php
+- git commit -am "ft : ajout du fichier tache-post.php"
+- git push --set-upstream origin taches ou git push -u origin taches

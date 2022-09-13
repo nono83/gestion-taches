@@ -1,0 +1,157 @@
+
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>jQuery UI Button - Toolbar</title>
+	<link type="text/css" href="css/base/jquery.ui.all.css" rel="stylesheet" />
+	<link type="text/css" href="css/ui.jqgrid.css" rel="stylesheet" />
+	<link type="text/css" href="css/redmond/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
+	<link type="text/css" href="css/ui.multiselect.css" rel="stylesheet" />
+	<script src="js/jquery-1.8.2.js"></script>
+	<script src="js/jquery-1.8.2.min.js"></script>
+	<script src="js/jquery-ui-1.8.24.custom.min.js"></script>
+	<script src="js/ui/jquery.ui.core.js"></script>
+	<script src="js/ui/jquery.ui.widget.js"></script>
+	<script src="js/ui/jquery.ui.datepicker.js"></script>
+	<script src="js/ui/jquery.ui.button.js"></script>
+	<script src="js/ui/jquery.ui.draggable.js"></script>
+	<script src="js/ui/jquery.ui.position.js"></script>
+	<script src="js/ui/jquery.ui.resizable.js"></script>
+	<script src="js/ui/jquery.ui.dialog.js"></script>
+	<script src="js/i18n/grid.locale-fr.js" type="text/javascript"></script>
+	<script src="js/jquery.min.js" type="text/javascript"></script>
+	<script src="js/jquery.layout.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$.jgrid.no_legacy_api = true;
+		$.jgrid.useJSON = true;
+	</script>
+	<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
+	<script src="js/jquery.tablednd.js" type="text/javascript"></script>
+	<script src="js/jquery.contextmenu.js" type="text/javascript"></script>
+	<script src="js/ui.multiselect.js" type="text/javascript"></script>
+	<style>
+	#toolbar { padding: 10px 4px; }
+	#contenu { margin-top: 10px; }
+	#contenu label { width: 20%; display: block; float: left;}
+	#contenu div { width: 30%; display: block; float: left;}
+	.ui-state-error { padding: .3em; }
+	.ui-layout-west .ui-jqgrid tr.jqgrow td { border-bottom: 0px none;}
+	.ui-datepicker {z-index:1200;}
+	td,th,tr,div { font-family: verdana; font-size: 12px; }
+	</style>
+	<script>
+	$(function() {
+		var TITRE_ID = $( "#TITRE_ID" );
+		var NOM = $( "#NOM" );
+		var ABBREV = $( "#ABBREV" );
+		var allFields = $( [] ).add( TITRE_ID ).add( NOM ).add( ABBREV );
+		var tips = $( ".validateTips" );
+
+		function updateTips( t ) {
+			tips
+				.text( t )
+				.addClass( "ui-state-highlight" );
+			setTimeout(function() { tips.removeClass( "ui-state-highlight", 1500 ); }, 500 );
+		}
+
+		function checkLength( o, n, min, max ) {
+			if ( (max > 0 && o.val().length > max) || (min > 0 && o.val().length < min) ) {
+				o.addClass( "ui-state-error" );
+				if (min < max) updateTips( "La longueur du champs " + n + " doit ?tre comprise entre " + min + " et " + max + "." );
+				if (min > 0 && max == 0) updateTips( "La longueur du champs " + n + " doit ?tre sup?rieur ou ?gal ? " + min + "." );
+				if (max > 0 && min == 0) updateTips( "La longueur du champs " + n + " doit ?tre inf?rieur ou ?gal ? " + max + "." );
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		function checkRegexp( o, regexp, n ) {
+			if ( !( regexp.test( o.val() ) ) ) {
+				o.addClass( "ui-state-error" );
+				updateTips( n );
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		
+		jQuery("#list").jqGrid({
+		datatype: "local",
+		height: 250,
+		colNames:["TITRE","NOM","PRENOM","ADRESSE","PAYS","NUM","MESSAGE","FRAIS_HT","FRAIS_TVA","FRAIS_TTC","TOTAL_HT","TOTAL_TVA","TOTAL_TTC"],
+		colModel:[
+		{name:"TITRE",index:"TITRE",width:"50", key:true}
+		,
+		{name:"NOM",index:"NOM",width:"100",editable:true,editoptions:{size:100},formoptions:{label:"NOM",rowpos:1,colpos:1},editrules:{required:true}}
+		,
+		{name:"PRENOM",index:"PRENOM",width:"100",editable:true,editoptions:{size:10},formoptions:{label:"ADRESSE",rowpos:2,colpos:1},editrules:{required:true}}
+		,
+		{name:"ADRESSE",index:"ADRESSE",width:"200",editable:true,editoptions:{size:10},formoptions:{label:"ADRESSE",rowpos:3,colpos:1},editrules:{required:true}}
+		,
+		{name:"PAYS",index:"PAYS",width:"70",editable:true,editoptions:{size:10},formoptions:{label:"CP",rowpos:4,colpos:1},editrules:{required:true}}
+		,
+		{name:"NUM",index:"NUM",width:"100",editable:true,editoptions:{size:10},formoptions:{label:"VILLE",rowpos:5,colpos:1},editrules:{required:true}}
+		,
+		{name:"MESSAGE",index:"MESSAGE",width:"100",editable:true,edittype:'select',editoptions:{value:{1:'Dagneau Vaea',2:'Zdebska Dorota',3:'Costes Joelle'}},formoptions:{label:"PAYS",rowpos:6,colpos:1},editrules:{required:true}}
+		,
+		{name:"FRAIS_HT",index:"FRAIS_HT",width:"180",editable:true,editoptions:{size:10},formoptions:{label:"MAIL",rowpos:7,colpos:1},editrules:{required:true}}
+		,
+		{name:"FRAIS_TVA",index:"FRAIS_TVA",width:"100",editable:true,editoptions:{size:10},formoptions:{label:"TEL",rowpos:8,colpos:1},editrules:{required:true}}
+		,
+		{name:"FRAIS_TTC",index:"FRAIS_TTC",width:"100",editable:true,editoptions:{size:10},formoptions:{label:"PORTABLE",rowpos:9,colpos:1},editrules:{required:true}}
+		,
+		{name:"TOTAL_HT",index:"TOTAL_HT",width:"50",editable:true,edittype:'textarea',editoptions:{rows:"4",cols:"30"},formoptions:{label:"REGLE;",rowpos:10,colpos:1},editrules:{required:true}}
+		,
+		{name:"TOTAL_TVA",index:"TOTAL_HT",width:"50",editable:true,edittype:'textarea',editoptions:{rows:"4",cols:"30"},formoptions:{label:"REGLE;",rowpos:10,colpos:1},editrules:{required:true}}
+		,
+		{name:"TOTAL_TTC",index:"TOTAL_HT",width:"50",editable:true,edittype:'textarea',editoptions:{rows:"4",cols:"30"},formoptions:{label:"REGLE;",rowpos:10,colpos:1},editrules:{required:true}}
+		],
+		multiselect: false,
+		caption: "Liste des Commandes par chèques",
+		autowidth: true,
+		rowNum:10,
+   		rowList:[10,20,30],
+		viewrecords: true,
+		pager: "#pagernav",
+		pgtext: "",
+		pgbuttons: true,
+		viewrecords: false,
+		editurl: "cico_edit.php?Action=Insert",
+		prmNames:{id:"TITRE"},
+		ondblClickRow: function(id){
+			var ret = jQuery("#list").jqGrid("getRowData",id);
+			document.location.href="contacts.php?CONTACT_ID="+ret.id;
+		}
+		});
+		//Barre de navigation (navigator)
+		jQuery("#list")
+		.jqGrid("navGrid","#pagernav",
+		{add:true,addtitle:"Ajoute un enregistrement", edit:true,view:true, del:true, refresh:true, search:true,alertcap:"Avertissements",alerttext:"Veuillez sélectionner un enregistrement"}, //options
+		{left:100,top:100,width:700,reloadAfterSubmit:false,modal:true,url:"cico_edit.php?Action=Insert",mtype:"GET",topinfo:"Saisissez tous les champs",saveicon:[true,"left","ui-icon-disk"],checkOnSubmit:true,checkOnUpdate:true}, // edit options (fenêtre modale) voir form editing
+		{height:600,width:600,reloadAfterSubmit:false}, // add options (fenêtre modale) voir form editing
+		{reloadAfterSubmit:false}, // del options voir form editing
+		{closeOnEscape:true}, /* allow the view dialog to be closed when user press ESC key*/
+		{multipleSearch : true} // search options
+		)
+		.jqGrid('navButtonAdd',"#pagernav",
+		{caption:"", buttonicon:"ui-icon-print", onClickButton:null, position: "last", title:"Impression de la facture", cursor: "pointer"})
+		;
+	});
+	</script>
+	<script>$(function() {var mydata = [,{TITRE:'M',NOM:'mantovani',PRENOM:'sergio',ADRESSE:'Avenida Paes de Barros 2744 ap 81',CP:'03149000',VILLE:'Brésil',PAYS:'France',MAIL:'montovani@gmail.com',TEL:'',PORTABLE:'06 25 54 87 98',REGLE:'Oui'},{TITRE:'Melle',NOM:'Carpenter',PRENOM:'Marie',ADRESSE:'12 rue de Lappe',CP:'75004',VILLE:'Paris',PAYS:'France  ',MAIL:'carpenterm@hotmail.com',TEL:'01 42 58 98 87 ',PORTABLE:'06 27 58 45 65',REGLE:'Non'},{TITRE:'M',NOM:'GALEY',PRENOM:'Nicolas',ADRESSE:'48 rue Louveau',CP:'92438',VILLE:'Chatillon',PAYS:'Egypt',MAIL:'galeynicolas@clb-internet.fr',TEL:'01 45 87 98 65',PORTABLE:'06 25 87 45 15',REGLE:'Oui'},{TITRE:'Mme',NOM:'Lempesis',PRENOM:'Joanna',ADRESSE:'7 Xanthou street',CP:'842536-021',VILLE:'Athénes',PAYS:'Gréce',MAIL:'ljoanna@gmail.gr',TEL:'65 87 41 25 35',PORTABLE:'+066 85 78 45 12',REGLE:'Non'}];for(var i=0;i<=mydata.length;i++) jQuery('#list').jqGrid('addRowData',i+1,mydata[i]);});</script></head>
+<body>
+
+<div id=#page>
+	<div id="menu">
+		<table id="list"></table>
+		<div id="pagernav"></div>
+		
+	</div>
+
+
+</div>
+
+</body>
+</html>
