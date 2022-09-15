@@ -1,7 +1,6 @@
 <?php
 require_once ('tache.php');
-require_once ('_config.inc.php');
-
+require_once ('_config.inc.php'); 
 $tache=new Tache();
 
 switch ($_POST['oper']){
@@ -29,19 +28,18 @@ switch ($_POST['oper']){
     case 'listing':
         try {
             //$pdo = new PDO("mysql:host=".SERVER.";dbname=".BASE, USER, '');
-            $pdo = new PDO("mysql:host=".SERVER.";dbname=".BASE, USER, '');
+            $pdo = new PDO("mysql:host=".SERVER.";dbname=".BASE, USER, PASS);
             $pdo->exec("set names utf8"); 
             //Clause where de la requête. Si $_POST['listeID']==0 on retourne la liste entière des tâches sinon juste la liste des tâches liées à la l'id de la liste
             $whereClause=$_POST['listeID']==0?'':'where taches.liste_id=:id';
             $statement = $pdo->prepare('SELECT taches.id, taches.nom as tache, taches.statut as statut, listes.nom as liste  FROM taches INNER JOIN listes ON taches.liste_id=listes.id '.$whereClause);
-            $statement->bindValue(':id',  $_POST['listeID'], PDO::PARAM_INT);
-             $statement->setFetchMode(PDO::FETCH_CLASS, 'taches'); 
+            if ($_POST['listeID']!=0){    
+                $statement->bindValue(':id',  $_POST['listeID'], PDO::PARAM_INT);
+            }
+
             if ($statement->execute()) {
                 $tachearray = array();
                 while ($tache = $statement->fetch(PDO::FETCH_ASSOC)) {
-               /*       echo '<pre>';
-                    print_r($tache);
-                    echo '</pre>';  */
                     $tachearray[]= $tache;
                      }
             }else {

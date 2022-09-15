@@ -1,5 +1,4 @@
 <?php
-//require_once ("liste.php");
 require_once ("_config.inc.php");
 class Liste
 {

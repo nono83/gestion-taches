@@ -27,11 +27,11 @@ switch  ($_POST['action']){
 
     case 'listing': 
         try {
-            $pdo = new PDO("mysql:host=".SERVER.";dbname=".BASE, USER, '');
+            $pdo = new PDO("mysql:host=".SERVER.";dbname=".BASE, USER, PASS);
             $pdo->exec("set names utf8"); 
             $statement = $pdo->prepare('SELECT * FROM  listes ORDER BY Nom' );
             if ($statement->execute()) {
-                $tachearray = array();
+                $listearray = array();
                 while ($liste = $statement->fetch(PDO::FETCH_ASSOC)) {
                     $listearray[]= $liste;
                      }
