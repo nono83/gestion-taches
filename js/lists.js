@@ -174,7 +174,7 @@ $(document).ready(function () {
     //Test si le nom de la liste saisi existe déjà dans la combobox
     function listExists(value){
         //Test l'expression exacte
-        if($("#lists option").filter(function() {return $(this).text() === value;}).length>0){
+        if($("#lists option").filter(function() {return $(this).text().toLowerCase() === value.toLowerCase();}).length>0){
         //Test l'expression contenue    
         //if($('#lists').find("option:contains('" + value  + "')").length){
             return true;
