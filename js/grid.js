@@ -41,7 +41,7 @@
              width: 150,
              editable: true,
              edittype:'select',
-             editoptions:{value:"validée:validée;non validée:non validée"}
+             editoptions:{value:"non validée:non validée;validée:validée"}
          },
          {
              label: 'Liste',
@@ -109,7 +109,6 @@
              width:400,
              height:280,
              reloadAfterSubmit:true,
-             //beforeSubmit: setProgressBar,
              modal:true,
              saveicon:[false],
              closeicon:[false],
@@ -134,15 +133,13 @@
              width:400,
              height:280,
              //reloadAfterSubmit:true,
-             afterSubmit: refreshGrid,
-             //afterComplete: 
+             afterComplete: refreshGrid,
              modal:true,
              url:"tache-post.php",
              mtype:"POST",
              saveicon:[false],
              closeicon:[false],
              checkOnSubmit:false,
-             checkOnUpdate:false,
              closeOnEscape:true,
              resize:false,
              closeAfterAdd:true,
